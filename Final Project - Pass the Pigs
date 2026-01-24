@@ -1,0 +1,48 @@
+import random #Generates random outcomes for the pigs
+
+def roll_pigs():
+    #Each pig can be Side ~ S / Razorback ~ R
+    pig1 = random.choice(['S', 'R'])
+    pig2 = random.choice(['S', 'R'])
+    return pig1, pig2
+
+def calculate_score(pig1, pig2):
+    if pig1 == 'S' and pig2 == 'S':
+        return 1
+    elif pig1 == 'R' and pig2 == 'R':
+        return 5
+    else:
+        return 3
+
+def main():
+    player_scores = [0, 0]
+    current_player = 0
+
+    print("Pass the Pigs!")
+    
+    while max(player_scores) < 20:
+        print(f"\nPlayer {current_player + 1}'s turn. Current score: {player_scores[current_player]}")
+        action = input("Type 'r' to roll or 'p' to pass: ").lower()
+        
+        if action == 'r':
+            pig1, pig2 = roll_pigs()
+            score = calculate_score(pig1, pig2)
+            player_scores[current_player] += score
+            print(f"You rolled: {pig1} and {pig2}. You scored {score} points.")
+            print(f"Total score: {player_scores[current_player]}")
+        elif action == 'p':
+            print("Passing turn.")
+            current_player = 1 - current_player
+        else:
+            print("Invalid input, try again.")
+
+        #Switch player after rolling
+        if action == 'r':
+            current_player = 1 - current_player
+
+    winner = 1 if player_scores[0] >= 20 else 2
+    print(f"\nPlayer {winner} wins with {player_scores[winner - 1]} points! Congratulations!")
+
+if __name__ == "__main__":
+    main()
+pass
